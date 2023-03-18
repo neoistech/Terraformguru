@@ -1,2 +1,2 @@
 # Terraformguru
-This Erpository contains only related Terraform blocks and modules
+This Repository contains only related Terraform blocks and modules
