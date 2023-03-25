@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodeappsvc
+spec:
+  selector:
+    app: node
+  type: NodePort
+  ports:
+  - targetPort: 9981
+    nodePort: 31500  # 30000-32676
+    port: 80

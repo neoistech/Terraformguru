@@ -1,0 +1,139 @@
+kind: Deployment   
+apiVersion: apps/v1    
+metadata:
+  name: <deploymentName> 
+  labels:
+    <key>: <value> 
+spec:
+  strategy:
+    rollingUpdates   
+    recreate  
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <vales>  
+    spec:
+      containers:
+      - name: containerName
+---
+-# Deployment ReCreate
+---------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello 
+  strategy:
+    type: Recreate    
+  template:
+    metadata:
+      name: hello
+      labels:
+        app: hello  
+    spec:
+      containers:
+      - name: helloworld    
+        image: 
+        ports:
+        - containerPort: 80   
+
+
+
+
+# Rolling Update
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javawebpp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: javawebapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      name: javawebapppod
+      labels:
+        app: javawebapp
+    spec:
+      containers:
+      - name: javawebapp
+        image: mylandmarktech/java-web-app
+        ports:
+        - containerPort: 8080
+
+
+
+        Deployment techniques:
+  Blue + Green  
+  Canary :
+    Traffic management  
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: webapp
+  labels:
+    app: tesla
+spec:
+  containers:
+  - name: webapp
+    image: mylandmarktech/maven-web-app:29
+    ports:
+    - containerPort: 8080
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tesla
+  template:
+    metadata:
+      name: webapp
+      labels:
+        app: tesla
+    spec:
+      containers:
+      - name: app
+        image: mylandmarktech/maven-web-app
+        ports:
+        - containerPort: 8080
+---
+# kams
+kind: Service
+apiVersion: v1
+metadata:
+  name: webappsvc
+  labels:
+    app: web
+spec:
+  selector:
+    app: tesla
+  ports:
+  - port: 8000
+    targetPort: 8080

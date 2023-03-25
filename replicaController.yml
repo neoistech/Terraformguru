@@ -1,0 +1,64 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: myrc
+  namespace: dev
+  labels:
+    app: fe
+spec:
+  selector:
+    app: tesla
+  replicas: 2
+  template:  # PodTemplate
+    metadata:
+      name: myapp
+      labels:
+        app: tesla  # labels to select
+    spec:
+      containers:
+      - name: myapp
+        image: mylandmarktech/java-web-app
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: dev
+  name: appsvc
+spec:
+  selector:
+    app: tesla
+  type: NodePort
+  ports:
+  - targetPort: 8080
+    nodePort: 31000  # 30000-32676
+    port: 80
+
+
+
+
+    #Example @ for Replica Controller
+
+    kams  
+kind: ReplicationController 
+apiVersion: v1  
+metadata:
+  name: pythonapp
+  labels:
+    app: python  
+spec:
+  selector :
+    app: webapp  
+  replicas: 2
+  template:
+    metadata:
+      name: python-web-app 
+      labels:
+        app: webapp   
+    spec:  
+      containers:
+      - name: pythonapp  
+        image: mylandmarktech/python-flask-app    
+        ports:
+        - containerPort: 5000

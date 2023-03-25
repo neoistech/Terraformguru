@@ -1,0 +1,80 @@
+rs.yml  = kams 
+-=====--------
+kind: ReplicaSet    
+apiVersion: apps/v1    
+metadata:
+  name: <RSName> 
+  labels:
+    <key>: <value> 
+spec:
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  replicas: 3   
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <vales>  
+    spec:
+      containers:
+      - name: containerName  
+        image: imageName:tag    
+        ports:
+        - containerPort: <ContainerpodNumber>      
+
+#Example 2 for ReplicaSet
+kind: ReplicaSet    
+apiVersion: apps/v1     
+metadata:
+  name: nodeapp   
+spec:
+  replicas: 2    
+  selector:
+    matchLabels:
+      app: node   
+  template:
+    metadata:
+      name: nodeweb-app  
+      labels:
+        app: node 
+    spec:
+      imagePullSecrets:
+      - name: dockerhublogin
+      containers:
+      - name: nodeapp   
+        image: mylandmarktech/nodejs-fe-app
+        ports:
+        - containerPort: 9981          
+
+# Example 3 for replicaSet
+kind: ReplicaSet    
+apiVersion: apps/v1    
+metadata:
+  name: <RSName> 
+  labels:
+    <key>: <value> 
+spec:
+  selector:
+    matchLabels:
+      <key>: value           
+    matchExpressions:
+    - key: <key>
+      operator: <in /not in>  
+      values: 
+      - <value1> 
+      - <value3>      
+  template:
+    metadata:
+      name: podName  
+    labels:
+      <key>: <vales>  
+    spec:
+      containers:
+      - name: containerName

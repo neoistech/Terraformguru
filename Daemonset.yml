@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: logmgt   
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello  
+  template:
+    metadata:
+      name: hello
+      labels:
+        app: hello
+    spec:
+      containers:
+      - name: hello
+        image: mylandmarktech/hello
+        ports:
+        - containerPort: 80
+      tolerations:
+      - operator: Exists
+        effect: "NoSchedule"
